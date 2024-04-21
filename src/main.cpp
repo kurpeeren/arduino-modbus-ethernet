@@ -1,4 +1,6 @@
 #include <EtherCard.h> //EtherCard kütüphanesi ekleme
+#include <SPI.h>
+#include <ArduinoRS485.h>
 
 //Ledi yakıp söndürmek için kısayollar
 //http://192.168.2.34/?LED=OFF
@@ -6,6 +8,8 @@
 
 
 #define STATIC 0 // DHCP'yi kullanım dışı bırakmak için 1 yapılır (myip/gwip değerlerini aşağıda ayarlanır)
+
+void blinkLed();
 
 // mac adresi
 static byte mymac[] = { 0x74,0x69,0x69,0x2D,0x30,0x31 };
@@ -39,6 +43,16 @@ char const page[] PROGMEM =
 "</html>"
 ;
 
+void blinkLed()
+{
+    while (true)
+    {
+        digitalWrite(ledPin, HIGH);
+        delay(500);
+        digitalWrite(ledPin, LOW);
+        delay(500);
+    }
+}
 void setup () 
 {
     pinMode(ledPin, OUTPUT);
@@ -112,13 +126,6 @@ void loop ()
     ether.httpServerReply(sizeof page - 1);
 }
 
-void blinkLed()
-{
-    while (true)
-    {
-        digitalWrite(ledPin, HIGH);
-        delay(500);
-        digitalWrite(ledPin, LOW);
-        delay(500);
-    }
-}
+
+
+
